@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from router.img_router.img import FILE_ROUTER
+from vm.item_vm import Item
 
 CENTER_ROUTER = APIRouter()
 CENTER_ROUTER.include_router(FILE_ROUTER)
@@ -39,3 +40,14 @@ def get_item(name: str, age: int, sex: bool, description: str | None = None):
         "sex": sex,
         "description": description
     }
+
+@CENTER_ROUTER.post("/item")
+def create_item(item: Item):
+    """
+    建立 item
+
+    :param item: 傳入 item，型別可以參照 vm 資料夾中的 item_vm 檔案中察看
+    :return: 回傳建立的 item 字典
+    """
+    dict_item = item.model_dump(exclude={"description"})
+    return dict_item
