@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Query
 
 from router.img_router.img import FILE_ROUTER
 from vm.item_vm import Item
@@ -41,6 +43,7 @@ def get_item(name: str, age: int, sex: bool, description: str | None = None):
         "description": description
     }
 
+
 @CENTER_ROUTER.post("/item")
 def create_item(item: Item):
     """
@@ -51,3 +54,31 @@ def create_item(item: Item):
     """
     dict_item = item.model_dump(exclude={"description"})
     return dict_item
+
+
+@CENTER_ROUTER.get("/item_with_query")
+def item_with_query(q: Annotated[int | None, Query(lt=50)] = 10):
+    """
+    將傳入的請求 q 用字典的方式回傳
+
+    :param q: 請求傳入的數值，預設值是 10
+    :return: 回傳 q
+    """
+    return {"q": q}
+
+
+@CENTER_ROUTER.get("/list_item_query")
+def item_with_query(
+        word: Annotated[
+            list[str] | None, Query(title="這是變數", description="變數描述", alias="item-query", max_length=50)] = [
+            "foo", "bar"
+        ]
+):  # type: ignore
+    """
+    將傳入的請求 word 用字典的方式回傳
+
+    :param word: 請求傳入的字串，預設值是 None
+    :return: 回傳 word
+    """
+    print(word)
+    return {"word": word}
