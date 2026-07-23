@@ -1,6 +1,6 @@
-from typing import Annotated
+from typing import Annotated, Any
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Path
 
 from router.img_router.img import FILE_ROUTER
 from vm.item_vm import Item
@@ -82,3 +82,15 @@ def item_with_query(
     """
     print(word)
     return {"word": word}
+
+
+@CENTER_ROUTER.get("/item_with_path/{item_id}")
+def read_item_with_path(
+        item_id: Annotated[int, Path(title="這是 ID")],
+        q: Annotated[str | None, Query(alias="item-query")] = None
+):
+    results: dict[str, Any] = {"item_id": item_id}
+
+    if q:
+        results.update({"q": q})
+    return results
