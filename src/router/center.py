@@ -4,7 +4,7 @@ from fastapi import APIRouter, Query, Path
 
 from router.body_router.body import BODY_ROUTER
 from router.img_router.img import FILE_ROUTER
-from vm.item_vm import Item
+from vm.item_vm import Item, Filter
 
 CENTER_ROUTER = APIRouter()
 CENTER_ROUTER.include_router(FILE_ROUTER)
