@@ -2,11 +2,13 @@ from typing import Annotated, Any
 
 from fastapi import APIRouter, Query, Path
 
+from router.body_router.body import BODY_ROUTER
 from router.img_router.img import FILE_ROUTER
 from vm.item_vm import Item
 
 CENTER_ROUTER = APIRouter()
 CENTER_ROUTER.include_router(FILE_ROUTER)
+CENTER_ROUTER.include_router(BODY_ROUTER)
 
 
 @CENTER_ROUTER.get("/hello")
@@ -94,3 +96,9 @@ def read_item_with_path(
     if q:
         results.update({"q": q})
     return results
+
+
+@BODY_ROUTER.get("/filter")
+def body_filter(filter_query: Annotated[Filter, Query()]):
+    print(filter_query)
+    return {**filter_query.model_dump()}
