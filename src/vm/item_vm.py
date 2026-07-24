@@ -5,15 +5,25 @@ from pydantic import BaseModel, Field, HttpUrl
 
 class Image(BaseModel):
     url: HttpUrl
-    name: str
+    name: str = Field(examples=["photo", "image"])
 
-    model_config = {"frozen": True}
+    model_config = {
+        "frozen": True,
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "url": "https://www.google.com/",
+                    "name": "example_name"
+                }
+            ]
+        }
+    }
 
 
 class Item(BaseModel):
     name: str
     description: str | None = None
-    price: float
+    price: float= Field(examples=[35.4])
     tax: float | None = None
     tags: set[str] = set()
     image: set[Image] | None = None
