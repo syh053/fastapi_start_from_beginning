@@ -1,6 +1,13 @@
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
+
+
+class Image(BaseModel):
+    url: HttpUrl
+    name: str
+
+    model_config = {"frozen": True}
 
 
 class Item(BaseModel):
@@ -9,6 +16,14 @@ class Item(BaseModel):
     price: float
     tax: float | None = None
     tags: set[str] = set()
+    image: set[Image] | None = None
+
+
+class Offer(BaseModel):
+    name: str
+    description: str | None
+    price: float
+    items: list[Item]
 
 
 class User(BaseModel):

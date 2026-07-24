@@ -2,7 +2,7 @@ from typing import Annotated, Any
 
 from fastapi import APIRouter, Path, Query
 
-from vm.item_vm import Item, User
+from vm.item_vm import Item, User, Offer
 
 BODY_ROUTER = APIRouter(prefix="/body", tags=["查詢參數模型"])
 
@@ -42,4 +42,13 @@ def multi_update_item(
         "user": user
     }
 
+    print(results)
+
     return results
+
+
+@BODY_ROUTER.post("/offers")
+def create_offers(offers: Offer):
+    print(offers)
+    return offers
+
