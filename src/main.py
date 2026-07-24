@@ -10,7 +10,7 @@ WEB_SERVER_SETTING = {
     "reload_excludes": [".venv"],
 }
 
-app = FastAPI()
+app = FastAPI(swagger_ui_parameters={"withCredentials": True})
 
 app.include_router(CENTER_ROUTER)
 
